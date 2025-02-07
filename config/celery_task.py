@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 @shared_task(bind=True,autoretry_for=(Exception,), retry_backoff=True, retry_kwargs={"max_retries": 5},
              name='email_notification_task')
-def send_(self, email, otp):
+def send_otp(self, email, otp):
     try:
         message = {
             "email": email,
@@ -21,5 +21,7 @@ def send_(self, email, otp):
     except Exception as err:
         logging.error(f"Failed to process email: {err}")
         raise self.retry(exc=err)  # Retry on failure
+
+
 
 
