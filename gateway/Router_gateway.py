@@ -11,6 +11,7 @@ import pika
 import logging
 import os
 import jwt
+import httpx
 import rpc_client
 
 router_gateway= APIRouter(tags=['Authentication Service'])
@@ -45,50 +46,87 @@ async def jwt_validation(token: str = _fastapi.Depends(oauth2_scheme)):
 # Authentication routes
 @router_gateway.post("/auth/login")
 async def login(user_data: schema.UserCredentials):
-    try:
-        response = requests.post(f"{AUTH_BASE_URL}/api/token", json={"username": user_data.username, "password": user_data.password})
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.json())
-    except requests.exceptions.ConnectionError:
-        raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_BASE_URL}/api/token",
+                json={"username": user_data.username, "password": user_data.password},
+                timeout=10  # Set a timeout for the request
+            )
+            
+            if response.status_code == 200:
+                return response.json()
+            else:
+                raise HTTPException(status_code=response.status_code, detail=response.json())
+        
+        except httpx.ConnectError:
+            raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+        except httpx.RequestError as e:
+            raise HTTPException(status_code=500, detail=f"Request error: {str(e)}")
+
+    
 
 @router_gateway.post("/auth/register")
 async def registeration(user_data:schema.UserRegisteration):
-    try:
-        response = requests.post(f"{AUTH_BASE_URL}/api/users", json={"name":user_data.name,"email": user_data.email, "password": user_data.password})
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.json())
-    except requests.exceptions.ConnectionError:
-        raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_BASE_URL}/api/users",
+                json={"name": user_data.username, "email": user_data.email, "password": user_data.password},
+                timeout=10  # Set a timeout for the request
+            )
+            if response.status_code == 200:
+                return response.json()
+            else:
+                raise HTTPException(status_code=response.status_code, detail=response.json())
+                
+        except httpx.ConnectError:
+            raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+        except httpx.RequestError as e:
+            raise HTTPException(status_code=500, detail=f"Request error: {str(e)}")
+      
 
 @router_gateway.post("/auth/generate_otp")
 async def generate_otp(user_data:schema.GenerateOtp):
-    try:
-        response = requests.post(f"{AUTH_BASE_URL}/api/users/generate_otp", json={"email":user_data.email})
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.json())
-    except requests.exceptions.ConnectionError:
-        raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_BASE_URL}/api/users/generate_otp",
+                json={"email": user_data.email},
+                timeout=10  # Set a timeout for the request
+            )
+            if response.status_code == 200:
+                return response.json()
+            else:
+                raise HTTPException(status_code=response.status_code, detail=response.json())
+
+        except httpx.ConnectError:
+            raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+        except httpx.RequestError as e:
+            raise HTTPException(status_code=500, detail=f"Request error: {str(e)}")
+   
 
 @router_gateway.post("/auth/verify_otp")
 async def verify_otp(user_data:schema.VerifyOtp):
-    try:
-        response = requests.post(f"{AUTH_BASE_URL}/api/users/verify_otp", json={"email":user_data.email ,"otp":user_data.otp})
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.json())
-    except requests.exceptions.ConnectionError:
-        raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                f"{AUTH_BASE_URL}/api/users/verify_otp",
+                json={"email": user_data.email, "otp": user_data.otp},
+                timeout=10  # Set a timeout for the request
+            )
+            if response.status_code == 200:
+                return response.json()
+            else:
+                raise HTTPException(status_code=response.status_code, detail=response.json())
 
-
-
+        except httpx.ConnectError:
+            raise HTTPException(status_code=503, detail="Authentication service is unavailable")
+        except httpx.RequestError as e:
+   
+            raise HTTPException(status_code=500, detail=f"Request error: {str(e)}")
+  
+        
 # ml microservice route - OCR route
 @router_gateway.post('/ocr' ,  tags=['Machine learning Service'] )
 def ocr(file: UploadFile = File(...),

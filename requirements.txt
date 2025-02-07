@@ -9,9 +9,11 @@ pydantic_core
 PyJWT
 SQLAlchemy
 python-dotenv
-uvicorn
+uvicorn[standard]
 python-multipart
 pika
 grpcio-tools 
 grpc-interceptor
 python-dotenv 
+celery
+flower
