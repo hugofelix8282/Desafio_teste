@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from routers import task_router, user_router
+import logging 
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Challenge ProPig",
