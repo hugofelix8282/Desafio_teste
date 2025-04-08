@@ -5,13 +5,17 @@ fastapi
 papasslib[bcrypt]
 psycopg2-binary
 pydantic
-pydantic-settings
 pydantic_core
+pyjwt[crypto]
 SQLAlchemy
 python-dotenv
 uvicorn[standard]
 python-multipart
 python-dotenv 
-PyJWT[crypto]
 pytest
-pytest httpx pytest-asyncio
+psycopg[binary]
+asyncpg 
+sqlalchemy[asyncio]
+pytest-asyncio
+testcontainers[postgres]
+
