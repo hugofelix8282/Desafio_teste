@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.base import Base
-from config.setting import settings
+from config.settings import settings
 
 # Criar o mecanismo com base na URL vinda do settings
 engine = create_engine(settings.database_url, echo=True)

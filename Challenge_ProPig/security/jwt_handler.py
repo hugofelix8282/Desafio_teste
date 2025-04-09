@@ -5,7 +5,7 @@ import  fastapi as  _fastapi
 from security.jwt_keys import obter_chave_privada, obter_chave_publica
 from schema.usuario import TokenPayload
 from Models import models
-from config.setting import settings
+from config.settings import settings
 
 
 

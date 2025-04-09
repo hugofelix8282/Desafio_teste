@@ -1,10 +1,6 @@
 from functools import lru_cache
-from config.setting import Settings
+from config.settings import settings
 
-
-
-# carregando as configurações da classe Setting() 
-settings= Settings()
 
 # carregar a chave privada 
 @lru_cache()  # assegurar que a chave seja carrega apenas uma vez em disco. (@lru_cache)
