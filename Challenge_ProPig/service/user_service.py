@@ -8,7 +8,7 @@ from security.jwt_handler import criar_acesso_token
 import fastapi as _fastapi
 
 # restaurar a usuário por email da base de dados.
-async def obter_usuário_email(email:str, db: _orm.Session):
+def obter_usuário_email(email:str, db: _orm.Session):
     return db.query(models.Usuario).filter(models.Usuario.email == email).first()
 
 async def criar_usuario(user: _user.UsuarioCreate, db: _orm.Session):
@@ -23,7 +23,7 @@ async def criar_usuario(user: _user.UsuarioCreate, db: _orm.Session):
     hashed_password=Hasher.obter_password_hash(user.password) 
 
     # criar instância do usuário
-    user_obj = models.Usuario(email=valid_email, nome=user.nome, password=hashed_password)
+    user_obj = models.Usuario(email=valid_email, nome=user.nome, hashed_password=hashed_password)
     # adicionar usuário na base de dados
     db.add(user_obj)
     db.commit()

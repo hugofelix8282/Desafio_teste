@@ -6,13 +6,11 @@ from db.session import Base
 from sqlalchemy import Enum as SqlEnum
 from enums.status_enum import StatusEnum
 from typing import Optional, List
-from sqlalchemy import String, Text, DateTime 
-from sqlalchemy.orm import Mapped, mapped_column, relationship,registry
+from sqlalchemy import String, Text, DateTime, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship  
 import datetime as dt
 
-table_registry = registry()
 
-@table_registry.mapped_as_dataclass
 class Usuario(Base):
     __tablename__ = "usuario"
 
@@ -29,7 +27,7 @@ class Usuario(Base):
     
         return _hash.bcrypt.verify(password, self.hashed_password)
 
-@table_registry.mapped_as_dataclass
+
 class Tarefa(Base):
     __tablename__ = "tarefa"
 

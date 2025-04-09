@@ -1,11 +1,11 @@
 import fastapi as _fastapi
 from schema import tarefa as _schema
-from models import models
+from Models import models
 import datetime as _dt
 import sqlalchemy.orm as _orm 
 
 # servico para criação de tarefa 
-def criar_tarefa(tarefa_data: _schema.TarefaCreate, db: Session, usuario_id: int):
+def criar_tarefa(tarefa_data: _schema.TarefaCreate, db: _orm.Session, usuario_id: int):
     tarefa = models.Tarefa( titulo=tarefa_data.titulo, descricao=tarefa_data.descricao,usuario_id=usuario_id)
     db.add(tarefa)
     db.commit()
