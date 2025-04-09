@@ -75,7 +75,7 @@ Este projeto realiza o deploy de uma aplicação em **ambiente de produção** u
 │   ├── main.py
 │   └──  outros...
 ├── Dockerfile  
-├── docker-compose.prod.yml  (No seu docker-compose.prod, somente os serviços da aplicação deve estar presente:)
+├── docker-compose.prod.yml  # (No seu docker-compose.prod, somente os serviços da aplicação deve estar presente.)
 ├── .env  # (Nunca habilitar no GitHub)
 terraform/   
 ├── modules/
@@ -117,6 +117,8 @@ terraform/
 > Função: Define os recursos da infraestrutura que serão criados. É aqui que você declara:
 * Instâncias EC2
 * RDS (PostgreSQL)
+* VPC
+* S3
 * Grupos de segurança (Security Groups)
 * Endereços IP elásticos (EIP)
 * Regras de firewall
