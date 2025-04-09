@@ -9,12 +9,12 @@ from db.init_db import init
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # === Startup ===
-    logging.info("🚀 Inicializando a aplicação e criando as tabelas...")
+    logging.info(" Inicializando a aplicação e criando as tabelas...")
     init()
 
     yield  
     # === Shutdown ===
-    logging.info("🛑 Encerrando a aplicação... (Você pode fechar conexões ou liberar recursos aqui)")
+    logging.info(" Encerrando a aplicação... (Você pode fechar conexões ou liberar recursos aqui)")
 
 app = FastAPI(
     title="Challenge ProPig",
