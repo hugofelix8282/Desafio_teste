@@ -7,12 +7,12 @@ from db.session import get_db
 router = _fastapi.APIRouter(prefix="/auth", tags=["auth"])
 # router endpoint registro
 @router.post("/v1/registro",response_model=_user.UsuarioResponse)
-async def registro(user: _user.UsuarioCreate, db: _orm.Session = _fastapi.Depends(get_db)):
-    return await _service.criar_usuario(user, db)
+def registro(user: _user.UsuarioCreate, db: _orm.Session = _fastapi.Depends(get_db)):
+    return  _service.criar_usuario(user, db)
 
 #router endpoint registro
 @router.post("/v1/login")
-async def login(user: _user.UsuarioLogin, db: _orm.Session = _fastapi.Depends(get_db)):
-    return await _service.autenticar_usuario(user.email, user.password, db)
+def login(user: _user.UsuarioLogin, db: _orm.Session = _fastapi.Depends(get_db)):
+    return  _service.autenticar_usuario(user.email, user.password, db)
 
 

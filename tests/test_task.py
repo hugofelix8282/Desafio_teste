@@ -1,4 +1,5 @@
 from http import HTTPStatus
+import pytest
 
 @pytest.mark.asyncio
 def test_criar_tarefa(auth_client):
