@@ -39,7 +39,7 @@ async def autenticar_usuario(email:str, password:str, db: _orm.Session):
         raise _fastapi.HTTPException(status_code=401,detail="Email ou senha inválido")
 
     token= criar_acesso_token({"sub": user.email})
-    return  _user.Token(access_token=token, token_type="bearer")
+    return return _user.Token(access_token=token, token_type="bearer")
 
 
 
