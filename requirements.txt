@@ -2,8 +2,8 @@ bcrypt
 cryptography
 email-validator
 fastapi
-bcrypt==4.0.1
-passlib[bcrypt]==1.7.4
+bcrypt
+passlib[bcrypt]
 psycopg2-binary
 pydantic
 pydantic-settings
@@ -23,3 +23,4 @@ asyncpg
 sqlalchemy[asyncio]
 pytest-asyncio
 testcontainers[postgres]
+
