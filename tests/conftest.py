@@ -5,9 +5,9 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from testcontainers.postgres import PostgresContainer
-from Challenge_ProPigdb.base import Base
-from Challenge_ProPigdb.main import app
-from Challenge_ProPigdb.db.session import get_db
+from Challenge_ProPig.db.base import Base
+from Challenge_ProPig.main import app
+from Challenge_ProPig.db.session import get_db
 from fastapi.testclient import TestClient
 
 @pytest.fixture(scope="session")

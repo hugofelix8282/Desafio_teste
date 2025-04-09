@@ -3,8 +3,8 @@ import pytest_asyncio
 from httpx import AsyncClient
 from datetime import datetime, timedelta
 import jwt
-from schema import tarefa as tarefa_schema
-from models import models
+from Challenge_ProPig.schema import tarefa as tarefa_schema
+from Challenge_ProPig.Models import models
 
 
 ALGORITHM = "RS256"

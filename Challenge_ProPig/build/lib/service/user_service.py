@@ -11,7 +11,7 @@ import fastapi as _fastapi
 def obter_usuário_email(email:str, db: _orm.Session):
     return db.query(models.Usuario).filter(models.Usuario.email == email).first()
 
-async def criar_usuario(user: _user.UsuarioCreate, db: _orm.Session):
+def criar_usuario(user: _user.UsuarioCreate, db: _orm.Session):
     try:
        # validando o email
        valid_email = validador_email.valid_email(user.email)  
@@ -32,9 +32,9 @@ async def criar_usuario(user: _user.UsuarioCreate, db: _orm.Session):
 
 
 # autenticar o usuário para gerar o token.
-async def autenticar_usuario(email:str, password:str, db: _orm.Session):
+def autenticar_usuario(email:str, password:str, db: _orm.Session):
 
-    user = await obter_usuário_email(email=email, db=db)
+    user = obter_usuário_email(email=email, db=db)
     if not user or not Hasher.verificar_password(password,user.hashed_password):
         raise _fastapi.HTTPException(status_code=401,detail="Email ou senha inválido")
 
