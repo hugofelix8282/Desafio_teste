@@ -1,31 +1,31 @@
-import datetime as _dt
-import sqlalchemy as _sql
-import sqlalchemy.orm as _orm
-import passlib.hash as _hash
-from db.session import Base
-from sqlalchemy import Enum as SqlEnum
-from enums.status_enum import StatusEnum
-from typing import Optional, List
-from sqlalchemy import String, Text, DateTime, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship  
 import datetime as dt
+from typing import Optional, List
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, Text, DateTime, ForeignKey, Enum as SqlEnum
+from db.session import Base
+from Models.status_enum import StatusEnum
+import passlib.hash as _hash
 
 
 class Usuario(Base):
     __tablename__ = "usuario"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(255), unique=True, index=True, nullable=False)
     nome: Mapped[str] = mapped_column(String(255), nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
 
-    tarefas: Mapped[List["Tarefa"]] = relationship("Tarefa", back_populates="usuario")
+    tarefas: Mapped[List["Tarefa"]] = relationship(
+        "Tarefa",
+        back_populates="usuario",
+        cascade="all, delete-orphan"
+    )
 
     def verificar_password(self, password: str) -> bool:
-        
-       # Verifica se a senha fornecida confere com a senha criptografada.
-    
         return _hash.bcrypt.verify(password, self.hashed_password)
+
+    def __repr__(self):
+        return f"<Usuario id={self.id} email={self.email}>"
 
 
 class Tarefa(Base):
@@ -50,11 +50,13 @@ class Tarefa(Base):
 
     usuario_id: Mapped[int] = mapped_column(ForeignKey("usuario.id"), nullable=False)
     usuario: Mapped["Usuario"] = relationship("Usuario", back_populates="tarefas")
-     # Função habilitada para definir a hora e data de cluclusão da tarefa, quando o usúario a definir como concluída.
+
     def update_status(self, new_status: StatusEnum) -> None:
         self.status = new_status
         if new_status == StatusEnum.concluida:
             self.data_conclusao = dt.datetime.now(dt.timezone.utc)
         else:
             self.data_conclusao = None
-    
+
+    def __repr__(self):
+        return f"<Tarefa id={self.id} titulo={self.titulo} status={self.status}>"

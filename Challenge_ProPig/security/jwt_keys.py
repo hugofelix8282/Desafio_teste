@@ -13,3 +13,4 @@ def obter_chave_privada() -> bytes:
 def obter_chave_publica() -> bytes:
     with open(settings.JWT_PUBLIC_KEY_PATH, "rb") as f: 
         return f.read()
+    
