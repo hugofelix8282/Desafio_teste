@@ -3,7 +3,6 @@
 
 ### Realizar os testes
 Instruçõees para realizar os testes através do bibioteca python-pytest. 
-> a biblioteca testcontainers-python foi atribuída  para subir um banco de dados PostgreSQL isolado para os testes. logo, temos uma separação do  container postgres de desenvolvimento, do container testes. 
 
 * No terminal raiz do seu projeto (conftest.py), rode:
 ```
