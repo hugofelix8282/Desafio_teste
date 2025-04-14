@@ -12,6 +12,7 @@ from db.init_db import init
 async def lifespan(app: FastAPI):
     # === Startup ===
     logging.info(" Inicializando a aplicação e criando as tabelas...")
+    mybranch
     await init()
 
     yield  
@@ -23,6 +24,12 @@ async def lifespan(app: FastAPI):
 
     except Exception as e:
         logging.warning(" Erro durante encerramento: %s", e)
+    init()
+
+    yield  
+    # === Shutdown ===
+    logging.info(" Encerrando a aplicação... (Você pode fechar conexões ou liberar recursos aqui)"
+        main
 
 app = FastAPI(
     title="Challenge ProPig",
